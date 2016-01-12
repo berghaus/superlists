@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 import unittest
 
 
@@ -15,19 +16,34 @@ class NewVisitorTest(unittest.TestCase):
         # Charlie has heard of a cool new online app. He goes to check out the homepage
         self.browser.get('http://localhost:8000')
 
-        # Charlie notices that the page title mentions to-do lists
+        # Charlie notices that the header and page title mentions to-do lists
         self.assertIn('To-Do', self.browser.title)
-        self.fail('Finish the test!')
+        header_text = self.browser.find_element_by_tag_name('h1').text
+        self.assertIn('To-Do', header_text)
 
         # He is invited to enter a to-do item straight away
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertEqual(
+            inputbox.get_attribute('placeholder'),
+            'Enter a to-do item'
+        )
 
-        # He types "By peacock feathers" into a text box (Charlie likes tying fly-fishing lures)
+        # He types "Buy peacock feathers" into a text box (Charlie likes tying fly-fishing lures)
+        inputbox.send_keys('Buy peacock feathers')
 
         # When he hits enter, the page updates, and now the page lists
-        # "1: By peacock feathers"
+        # "1: Buy peacock feathers"
+        inputbox.send_keys(Keys.ENTER)
+
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('<tr>')
+        self.assertTrue(
+            any(row.text == '1: Buy peacock feathers' for row in rows)
+        )
 
         # There is still a text box inviting him to add another item. He
         # enters "Use peacock feathers to make a fly" (very methodical Charlie!)
+        self.fail('Finish the test!')
 
         # The page updates again, now with both items on the lists
 
