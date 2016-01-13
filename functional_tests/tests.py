@@ -51,7 +51,6 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
 
         # The page updates again, now with both items on the lists
-        self.check_for_row_in_list_table('1: Buy peacock feathers')
         self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
 
         # A new user, Louise, comes along to the site
@@ -81,6 +80,6 @@ class NewVisitorTest(LiveServerTestCase):
         # Again, there is no trace of Charlie's list
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
-        self.assertIn('Buy Milk', page_text)
+        self.assertIn('Buy milk', page_text)
 
         # Satisfied, they both go to sleep
