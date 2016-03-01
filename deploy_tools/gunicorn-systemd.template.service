@@ -7,9 +7,9 @@ Wants=network-online.target
 [Service]
 Restart=on-failure
 
-User=frank_berghaus
-WorkingDirectory=/home/frank_berghaus/sites/SITENAME/source
-ExecStart=/home/frank_berghaus/.virtualenvs/virtualenv/bin/gunicorn \
+User=frank
+WorkingDirectory=/home/frank/sites/SITENAME/source
+ExecStart=/home/frank/sites/SITENAME/virtualenv/bin/gunicorn \
   --bind unix:/tmp/SITENAME.socket \
   superlists.wsgi:application
 [Install]

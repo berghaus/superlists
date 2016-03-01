@@ -28,10 +28,9 @@ eg, on Ubuntu
 Assume we have a user account at /home/username
 
 /home/username
-├── .virtualenv
-    └── vitualenv
 └── sites
     └── SITENAME
         ├── database
         ├── source
-        └── static
+        ├── static
+        └── vitualenv
