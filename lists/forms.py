@@ -17,7 +17,7 @@ class ItemForm(forms.models.ModelForm):
             }),
         }
         error_messages = {
-            'text': {'required': EMPTY_LIST_ERROR}
+            'text': {'required': EMPTY_LIST_ERROR},
         }
 
     def save(self, for_list):
@@ -28,9 +28,10 @@ class ItemForm(forms.models.ModelForm):
 class ExistingListItemForm(ItemForm):
 
     def __init__(self, for_list, *args, **kwargs):
-        super().__init__(args, kwargs)
+        super().__init__(*args, **kwargs)
+        self.instance.list = for_list
 
-    def validate_unique(self): # does not seem to be needed in Django 1.9
+    def validate_unique(self):
         try:
             self.instance.validate_unique()
         except ValidationError as e:
