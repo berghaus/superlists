@@ -11,6 +11,8 @@ User=frank
 WorkingDirectory=/home/frank/sites/SITENAME/source
 ExecStart=/home/frank/sites/SITENAME/virtualenv/bin/gunicorn \
   --bind unix:/tmp/SITENAME.socket \
+  --access-logfile ../access.log \
+  --error-logfile ../error.log \
   superlists.wsgi:application
 [Install]
 WantedBy=multi-user.target
