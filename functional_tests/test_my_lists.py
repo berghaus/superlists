@@ -6,8 +6,20 @@ from django.contrib.sessions.backends.db import SessionStore
 from .base import FunctionalTest
 from .server_tools import create_session_on_server
 from .management.commands.create_session import create_pre_authenticated_session
+from selenium.webdriver.support.ui import WebDriverWait
 
 class MyListsTest(FunctionalTest):
+
+    def switch_to_new_window(self, text_in_title):
+        retries = 60
+        while retries > 0:
+            for handle in self.browser.window_handles:
+                self.browser.switch_to_window(handle)
+                if text_in_title in self.browser.title:
+                    return
+            retries -= 1
+            time.sleep(0.5)
+        self.fail('could not find window: '+text_in_title)
 
     def create_pre_authenticated_session(self, email):
         if self.against_staging:
@@ -35,9 +47,11 @@ class MyListsTest(FunctionalTest):
 
         # She notices a "My lists" link, for the first time
         self.browser.find_element_by_link_text('My lists').click()
+        self.wait_for_element_with_id("id_my_lists")
 
         # She sees her list is in there, named according to its first element
         self.browser.find_element_by_link_text('Reticulate splines').click()
+        self.wait_for_element_with_id("id_list_table")
         self.assertEqual(self.browser.current_url, first_list_url)
 
         # She decides to start another list, just to see
@@ -48,7 +62,7 @@ class MyListsTest(FunctionalTest):
         # Under "My lists", her new list appears
         self.browser.find_element_by_link_text('My lists').click()
         self.browser.find_element_by_link_text('Click cows').click()
-        self.assertEqual(self.browser.current_url, second_lists_url)
+        self.assertEqual(self.browser.current_url, second_list_url)
 
         # She logs out. the "My lists" option dissappears
         self.browser.find_element_by_id('id_logout').click()

@@ -34,17 +34,17 @@ class LoginTest(FunctionalTest):
         self.switch_to_new_window('To-Do')
 
         # She can see that she is logged in
-        self.wait_to_be_logged_in(TEST_EMAIL)
+        self.wait_to_be_logged_in(email=TEST_EMAIL)
 
         # Refreshing the page she sees it's a real session login, not just a
         # one-off for that page
         self.browser.refresh()
-        self.wait_to_be_logged_in(TEST_EMAIL)
+        self.wait_to_be_logged_in(email=TEST_EMAIL)
 
         # terrified of the new feature she quickly hits "logout"
         self.browser.find_element_by_id('id_logout').click()
-        self.wait_to_be_logged_out(TEST_EMAIL)
+        self.wait_to_be_logged_out(email=TEST_EMAIL)
 
         # the "logged out" status also persists after a refresh
         self.browser.refresh()
-        self.wait_to_be_logged_out(TEST_EMAIL)
+        self.wait_to_be_logged_out(email=TEST_EMAIL)
