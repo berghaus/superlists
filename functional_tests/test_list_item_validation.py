@@ -13,7 +13,7 @@ class ItemValidationTest(FunctionalTest):
         self.browser.get(self.server_url)
         self.get_item_input_box().send_keys('\n')
 
-        # The home page rereshes, and there is an error message saying that they
+        # The home page refreshes, and there is an error message saying that the
         # list items cannot be blank
         error = self.get_error_element()
         self.assertEqual(error.text, "You can't have an empty list item")
